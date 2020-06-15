@@ -62,8 +62,8 @@ handleRestart = () => {
         const winner = utils.checkWinner(this.state.boxes)
         // Check if all boxes are filled 
         const isFilled = utils.allBoxesFilled(this.state.boxes)
-        // Create a status message to inform player of what's going on
-        let status
+        // Create a status variable to store message to inform player of what's going on
+        let status;
 
             if(winner) {
                 // If a winner exists, create a winning status message
@@ -82,9 +82,48 @@ handleRestart = () => {
             
             
         return (
-            <div>
+            <React.Fragment>
+                {/* Link to scoreboard */}
+                <Link to="/" className="board-link"> Go Back to Scoreboard </Link>
+                {/* Render the game board */}
+                <div className="board-wrapper">
+                    <div className="board">
+                        {/*Display Status Message*/}
+                        <h2 className="board-heading">{status}</h2>
+                            <div className="board-row">
+                                <Box value={this.state.boxes[0]} onClick={() => this.clickHandle(0)} />
+                                <Box value={this.state.boxes[1]} onClick={() => this.clickHandle(1)} />
+                                <Box value={this.state.boxes[2]} onClick={() => this.clickHandle(2)} />
+                            </div>
+                            <div className="board-row">
+                                <Box value={this.state.boxes[3]} onClick={() => this.clickHandle(3)} />
+                                <Box value={this.state.boxes[4]} onClick={() => this.clickHandle(4)} />
+                                <Box value={this.state.boxes[5]} onClick={() => this.clickHandle(5)} />
+                            </div>
+                            <div className="board-row">
+                                <Box value={this.state.boxes[6]} onClick={() => this.clickHandle(6)} />
+                                <Box value={this.state.boxes[7]} onClick={() => this.clickHandle(7)} />
+                                <Box value={this.state.boxes[8]} onClick={() => this.clickHandle(8)} />
+                            </div>
+                    </div>
+                    <div className="board-history">
+                        <h2 className="board-heading">Moves History:</h2>
+                        {/* Unordered List with history of player's moves */}
+                        <ul className="board-historyList">
+                            {/* If no moves in history */}
+                            {this.state.history.length === 0 && <span>No moves to show</span>}
 
-            </div>
+                            {this.state.history.length !== 0 && this.state.history.map((move, index) => {
+                                return <li key={index}>Move {index + 1}: <strong>{move}</strong></li>
+                            })}
+                        </ul>
+                    </div>
+                    {/* New Game Button */}
+                    {winner && <div className="board-footer">
+                                    <button className="btn" onClick={this.handleRestart}>Start A New Game</button>}
+                               </div>}
+                </div>
+            </React.Fragment>
         )
     }
 }
